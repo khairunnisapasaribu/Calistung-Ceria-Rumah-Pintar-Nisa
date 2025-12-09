@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Calistung Ceria - Rumah Pintar</title>
+
+  <!-- Fonts & icons (CDN) -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg1: #fff8e6;
+      --accent-a: #ff6b6b;
+      --accent-b: #feca57;
+      --accent-c: #1dd1a1;
+      --card: #ffffff;
+      --text: #222;
+      --nav-bg: rgba(255,255,255,0.9);
+      --highlight: #ff9f43;
+    }
+    [data-theme="dark"]{
+      --bg1: #0f1724;
+      --card: #0b1220;
+      --text: #e6eef8;
+      --nav-bg: rgba(8,12,20,0.8);
+      --highlight: #7dd3fc;
+    }
+
+    *{box-sizing:border-box}
+    html,body{min-height:100%;margin:0;font-family:'Poppins',system-ui,Arial;background: linear-gradient(135deg,var(--bg1),#fff3b0 50%);color:var(--text);scroll-behavior:smooth}
+
+    /* Header */
+    header{
+      background: linear-gradient(90deg,var(--accent-a),var(--accent-b),var(--accent-c));
+      color:#fff;padding:18px;text-align:center;font-weight:700;font-size:20px;position:relative;
+    }
+
+    .top-controls{
+      position:absolute;right:12px;top:10px;display:flex;gap:8px;align-items:center;
+    }
+    .control-btn{
+      background:var(--nav-bg);border-radius:10px;padding:8px 10px;border:0;cursor:pointer;font-weight:600;
+      box-shadow:0 6px 18px rgba(2,6,23,0.08)
+    }
+    .control-btn:hover{transform:translateY(-3px)}
+
+    nav{display:flex;justify-content:center;gap:12px;padding:10px;background:var(--nav-bg);position:sticky !important;top:0 !important;z-index:30}
+    nav a{padding:8px 12px;border-radius:10px;text-decoration:none;color:var(--text);font-weight:600}
+    nav a.active{background:var(--highlight);color:#fff;box-shadow:0 6px 18px rgba(0,0,0,0.08)}
+    nav a:hover{background:var(--highlight);color:#fff}
+
+    .main-wrap{max-width:1100px;margin:18px auto;padding:12px;display:grid;grid-template-columns:1fr;gap:16px}
+    @media(min-width:900px){ .main-wrap{grid-template-columns: 320px 1fr 320px} }
+
+    .card{background:var(--card);padding:14px;border-radius:14px;box-shadow:0 8px 30px rgba(2,6,23,0.06)}
+    .left, .right{display:flex;flex-direction:column;gap:12px}
+    .center{display:flex;flex-direction:column;gap:16px}
+
+    .section-title{font-size:18px;font-weight:700;color:var(--accent-a)}
+
+    .hero-img{width:100%;border-radius:12px;display:block}
+
+    .maskot{
+      position:fixed;right:18px;bottom:18px;width:80px;height:80px;z-index:50;cursor:pointer;
+      transition:transform .25s ease;
+    }
+    .maskot img{width:100%;height:100%;display:block}
+    .maskot.jump{animation:jump 0.8s}
+    @keyframes jump{0%{transform:translateY(0)}50%{transform:translateY(-18px)}100%{transform:translateY(0)}}
+
+    .slider{position:relative;overflow:hidden;border-radius:12px}
+    .slides{display:flex;transition:transform .5s ease}
+    .slides img{width:100%;flex-shrink:0}
+    .slider-controls{position:absolute;left:0;right:0;bottom:10px;display:flex;justify-content:center;gap:8px}
+    .dot{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,0.6);cursor:pointer}
+    .dot.active{background:var(--accent-a)}
+
+    .music-bar{display:flex;gap:8px;align-items:center}
+
+    footer{margin-top:20px;padding:18px;text-align:center;background:linear-gradient(90deg,var(--accent-c),var(--accent-b),var(--accent-a));color:white;border-radius:8px;margin:24px}
+
+    .price{background:linear-gradient(90deg,#fff3d7,#ffe7a6);padding:10px;border-radius:10px;font-weight:700}
+    .btn-primary{background:linear-gradient(90deg,var(--accent-a),var(--accent-c));color:white;border:0;padding:10px 14px;border-radius:10px;cursor:pointer;font-weight:700}
+    .btn-outline{background:transparent;border:2px solid rgba(0,0,0,0.06);padding:8px;border-radius:8px;cursor:pointer}
+
+    section{display:block}
+    .center section{margin-bottom:8px}
+
+    /* =========================
+      RESPONSIVE HP (≤600px)
+   ========================= */
+@media (max-width: 600px) {
+
+  .main-wrap { display: grid; grid-template-columns: 1fr; gap: 12px; padding: 10px; }
+  .left, .right { display: none !important; }
+
+  nav {
+    display: flex; overflow-x: auto; white-space: nowrap; gap: 6px; justify-content: flex-start;
+    position: sticky; top: 0; background: var(--nav-bg); z-index: 1000; padding: 10px 6px;
+    scrollbar-width: none;
+  }
+  nav::-webkit-scrollbar { display: none; }
+  nav a { flex-shrink: 0; font-size: 14px; padding: 8px 10px; }
+
+  /* HEADER + TOP-CONTROLS RAPIH DI HP */
+  header {
+    font-size: 16px;
+    padding: 12px 10px;
+    text-align: center;
+    display: flex;
+    flex-direction: column; /* teks di atas, tombol di bawah */
+    align-items: center;
+    gap: 8px;
+  }
+  .top-controls {
+    position: static; /* ikut aliran flex column header */
+    flex-direction: row;
+    gap: 8px;
+    width: 100%;
+    justify-content: center;
+  }
+  .control-btn { padding: 6px 10px; font-size: 14px; }
+
+  .hero-img { width: 100%; height: auto; border-radius: 10px; display: block; }
+  .maskot { width: 55px; height: 55px; right: 10px; bottom: 10px; }
+  body { font-size: 15px; line-height: 1.5; }
+  .btn-primary, .btn-outline { padding: 8px 12px; font-size: 14px; }
+}
+
+/* TABLET */
+@media (min-width: 601px) and (max-width: 900px) {
+  .main-wrap { grid-template-columns: 260px 1fr; gap: 14px; }
+  .right { display: none; }
+  nav a { font-size: 15px; }
+}
+
+/* LAPTOP */
+@media (min-width: 901px) { .main-wrap { grid-template-columns: 320px 1fr 320px; } }
+
+
+[data-theme="dark"] .price {
+  color: #222 !important;        /* teks gelap supaya jelas */
+  font-weight: 700;
+}
+
+[data-theme="dark"] .teddy-text {
+  color: #222 !important;      /* biar tetap gelap & jelas */
+  font-weight: 600;
+}
+
+[data-theme="dark"] .text-light {
+  color: #fff !important;      /* biar tetap gelap & jelas */
+  font-weight: 600;
+}
+
+
+
+  </style>
+</head>
+<body>
+
+  <header>
+    🌈 Calistung Ceria — Rumah Pintar Nisa
+    <div class="top-controls">
+      <div class="music-bar" title="Putar / Jeda Musik">
+        <button id="musicBtn" class="control-btn">▶ Musik</button>
+      </div>
+      <button id="themeBtn" class="control-btn" title="Toggle Dark Mode">🌙</button>
+    </div>
+  </header>
+
+  <nav id="mainNav">
+    <a href="#baca" data-target="baca">📚 Baca</a>
+    <a href="#tulis" data-target="tulis">✏️ Tulis</a>
+    <a href="#hitung" data-target="hitung">🧮 Hitung</a>
+    <a href="#harga" data-target="harga">💰 Harga</a>
+    <a href="#video" data-target="video">🎥 Video</a>
+    <a href="#galeri" data-target="galeri">🖼 Galeri</a>
+    <a href="#daftar" data-target="daftar">📝 Daftar</a>
+  </nav>
+
+  <div class="main-wrap">
+    <aside class="left">
+      <div class="card">
+        <div class="section-title">Menu Belajar</div>
+        <ul>
+          <li>🔤 Huruf A–Z</li>
+          <li>📖 Kata Sederhana</li>
+          <li>✍️ Latihan Menulis</li>
+          <li>🔢 Angka & Hitung</li>
+          <li>🎲 Game Edukasi</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="section-title">Info Kelas</div>
+        <p>Usia: 4–7 tahun</p>
+        <p>Jadwal: Senin, Rabu, Sabtu</p>
+        <div class="price">Biaya: lihat bagian Harga</div>
+      </div>
+    </aside>
+
+    <main class="center">
+      <section id="baca" class="card">
+        <div class="section-title">📚 Program Baca</div>
+        <p>Materi: huruf → suku kata → kata sederhana. Dilengkapi kartu gambar & audio.</p>
+        <img class="hero-img" src="bacatulishitung/download (3).jpeg" alt="Belajar Baca - contoh gambar">
+        <div class="price" style="margin-top:8px">Harga Pendaftaran: Rp 50.000 / bulan</div>
+      </section>
+
+      <section id="tulis" class="card">
+        <div class="section-title">✏️ Program Tulis</div>
+        <p>Latihan menulis huruf A–Z, tracing, dan lembar kerja printable.</p>
+        <img class="hero-img" src="bacatulishitung/Latin Language Worksheet for Children.jpeg" alt="Belajar Tulis - contoh gambar">
+        <div class="price" style="margin-top:8px">Harga Pendaftaran: Rp 55.000 / bulan</div>
+      </section>
+
+      <section id="hitung" class="card">
+        <div class="section-title">🧮 Program Hitung</div>
+        <p>Pengenalan angka, permainan menghitung, penjumlahan & pengurangan dasar.</p>
+        <img class="hero-img" src="bacatulishitung/Tanaman exercise.jpeg" alt="Belajar Hitung - contoh gambar">
+        <div class="price" style="margin-top:8px">Harga Pendaftaran: Rp 60.000 / bulan</div>
+      </section>
+
+      <section id="harga" class="card">
+        <div class="section-title">💰 Paket & Harga</div>
+        <p><strong>Baca:</strong> Rp 50.000 / bulan</p>
+        <p><strong>Tulis:</strong> Rp 55.000 / bulan</p>
+        <p><strong>Hitung:</strong> Rp 60.000 / bulan</p>
+        <p><strong>Paket Lengkap (semua):</strong> Rp 150.000 / bulan</p>
+        <button class="btn-primary" onclick="document.getElementById('daftar').scrollIntoView({behavior:'smooth'})">Daftar Sekarang</button>
+      </section>
+
+      <section id="video" class="card">
+        <div class="section-title">🎥 Video Demonstrasi</div>
+        <p>Contoh aktivitas belajar: menulis & membaca singkat.</p>
+        <video class="hero-img" src="video/1580507-hd_1280_720_30fps.mp4" autoplay loop muted alt="Video thumbnail"></video>
+      </section>
+
+      <section id="galeri" class="card">
+        <div class="section-title">🖼 Galeri</div>
+        <div class="slider" id="slider" aria-label="Slider galeri">
+          <div class="slides" id="slides">
+            <img src="galeri/_Умник (1).jpeg" alt="galeri1">
+            <img src="galeri/download (3).jpeg" alt="galeri2">
+            <img src="galeri/Развивайка.jpeg" alt="galeri3">
+            <img src="galeri/_Умник.jpeg" alt="galeri4">
+            <img src="galeri/DIY Crafts for Kids_ Easy and Fun Ways to Boost Creativity ✂️.jpeg" alt="galeri5">
+          </div>
+          <div class="slider-controls" id="dots"></div>
+        </div>
+        <div style="margin-top:12px">
+          <button class="btn-outline text-light" onclick="prevSlide()">◀</button>
+          <button class="btn-outline text-light" onclick="nextSlide()">▶</button>
+        </div>
+      </section>
+
+      <section id="daftar" class="card">
+        <div class="section-title">📝 Daftar</div>
+        <p>Klik tombol di bawah untuk membuka form pendaftaran lengkap (file terpisah).</p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn-primary" onclick="window.location='pendaftaran.html'">Buka Form Pendaftaran</button>
+          <button class="btn-outline" onclick="scrollToTop()">Kembali ke Atas</button>
+        </div>
+      </section>
+    </main>
+
+    <aside class="right">
+      <div class="card">
+        <div class="section-title">Testimoni Orang Tua</div>
+        <p>“Anak saya jadi semangat belajar huruf!” — Ibu Rina</p>
+        <p>“Latihannya seru dan gampang diikuti.” — Bapak Joko</p>
+      </div>
+      <div class="card">
+        <div class="section-title">Kontak & Lokasi</div>
+        <p>WhatsApp: 0822-7545-1420</p>
+        <p>Email: calistung@example.com</p>
+      </div>
+    </aside>
+  </div>
+
+  <footer>
+    © 2025 Calistung Ceria — Rumah Pintar Nisa
+  </footer>
+
+  <div class="maskot" id="maskot" title="Halo!">
+    <img src="maskot/Trendy_Coquette_Teddy_Bear_With_Bow-removebg-preview.png" alt="Maskot Teddy">
+  </div>
+
+  <audio id="bgMusic" loop src="music/musik.mp3" autoplay loop></audio>
+
+  <script>
+    // NAV + scroll highlight
+    document.querySelectorAll('nav a').forEach(a=>{
+      a.addEventListener('click', e=>{
+        e.preventDefault();
+        const id = a.getAttribute('href').slice(1);
+        const el = document.getElementById(id);
+        if(el){ el.scrollIntoView({behavior:'smooth', block:'start'}); }
+      });
+    });
+    const sections = Array.from(document.querySelectorAll('main section'));
+    const navLinks = Array.from(document.querySelectorAll('nav a'));
+    function highlightNav(){
+      const scrollPos = window.scrollY + 110;
+      let current = sections[0].id;
+      for(const s of sections){ if(s.offsetTop <= scrollPos) current = s.id; }
+      navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#'+current));
+    }
+    window.addEventListener('scroll', highlightNav);
+    highlightNav();
+
+    // DARK MODE
+    const themeBtn = document.getElementById('themeBtn');
+    themeBtn.addEventListener('click', ()=>{
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      if(isDark){ document.documentElement.removeAttribute('data-theme'); themeBtn.textContent='🌙'; }
+      else{ document.documentElement.setAttribute('data-theme','dark'); themeBtn.textContent='☀️'; }
+    });
+
+    // MUSIC
+    const music = document.getElementById('bgMusic');
+    const musicBtn = document.getElementById('musicBtn');
+    musicBtn.classList.add("text-light")
+    let musicPlaying=false;
+    musicBtn.addEventListener('click', ()=>{
+      if(!musicPlaying){ music.play().catch(()=>{}); musicBtn.textContent='⏸ Musik'; }
+      else{ music.pause(); musicBtn.textContent='▶ Musik'; }
+      musicPlaying = !musicPlaying;
+    });
+
+    // MASKOT
+    const maskot = document.getElementById('maskot');
+    maskot.addEventListener('click', ()=>{
+      maskot.classList.add('jump');
+      setTimeout(()=>maskot.classList.remove('jump'),900);
+      const toast = document.createElement('div');
+      toast.classList.add("teddy-text");
+      toast.textContent='Hai! Aku Teddy, ayo belajar bersama :)';
+      toast.style.position='fixed'; toast.style.right='110px'; toast.style.bottom='18px';
+      toast.style.background='rgba(255,255,255,0.95)'; toast.style.padding='8px 12px';
+      toast.style.borderRadius='10px'; toast.style.boxShadow='0 6px 18px rgba(0,0,0,0.12)';
+      document.body.appendChild(toast);
+      setTimeout(()=>toast.remove(),2800);
+    });
+
+    // SLIDER
+    let slideIndex=0;
+    const slides=document.getElementById('slides');
+    const total=slides.children.length;
+    const dotsWrap=document.getElementById('dots');
+    for(let i=0;i<total;i++){
+      const d=document.createElement('div'); d.className='dot'; d.dataset.i=i;
+      d.addEventListener('click', ()=>goToSlide(i)); dotsWrap.appendChild(d);
+    }
+    const dots=Array.from(dotsWrap.children);
+    function showSlide(i){ if(i<0)i=total-1; if(i>=total)i=0;
+            slideIndex=i;
+    slides.style.transform=`translateX(${-i*100}%)`;
+    dots.forEach((dot,idx)=>dot.classList.toggle('active', idx===i));
+  }
+  function nextSlide(){ showSlide(slideIndex+1); }
+  function prevSlide(){ showSlide(slideIndex-1); }
+  function goToSlide(i){ showSlide(i); }
+
+  // autoplay slider
+  let sliderTimer = setInterval(nextSlide,3500);
+  const sliderEl=document.getElementById('slider');
+  sliderEl.addEventListener('mouseenter', ()=>clearInterval(sliderTimer));
+  sliderEl.addEventListener('mouseleave', ()=>sliderTimer=setInterval(nextSlide,3500));
+  showSlide(0);
+
+  window.nextSlide=nextSlide;
+  window.prevSlide=prevSlide;
+
+  // scroll to top helper
+  function scrollToTop(){ window.scrollTo({top:0,behavior:'smooth'}); }
+  window.scrollToTop=scrollToTop;
+
+  // initial highlight in case of deep link
+  setTimeout(highlightNav,300);
+  </script>
+
+</body>
+</html>
+
+
